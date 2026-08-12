@@ -1,0 +1,195 @@
+---
+// Design reminder: Bazaar Garden — gunakan arka gerbang, pola lantai, warna kunyit dan jalur perjalanan; foto sebenar kekal sebagai tumpuan.
+import Base from "../layouts/Base.astro";
+
+const title = "Little India Brickfields | Panduan Pelawat Kuala Lumpur";
+const description = "Panduan ringkas untuk meneroka Little India Brickfields: arah, makanan, tempat menarik, parkir dan peta.";
+const heroPhoto = "https://upload.wikimedia.org/wikipedia/commons/1/10/Little_India%2C_Brickfields%2C_Kuala_Lumpur.jpg";
+const templePhoto = "https://upload.wikimedia.org/wikipedia/commons/f/f7/Kuala_Lumpur._Sri_Krishna_Temple%2C_Brickfields._2019-12-13_18-00-05.jpg";
+
+const facts = [
+  { label: "Suasana", value: "Gerbang warna-warni & deretan kedai" },
+  { label: "Masa terbaik", value: "Lewat petang hingga awal malam" },
+  { label: "Cadangan tempoh", value: "1.5–3 jam" },
+  { label: "Kemasukan", value: "Percuma untuk berjalan di kawasan awam" },
+];
+
+const faq = [
+  {
+    question: "Adakah Little India Brickfields mempunyai tiket masuk?",
+    answer: "Tidak. Little India Brickfields ialah kawasan jalanan awam dan boleh diterokai tanpa tiket. Bajet diperlukan untuk makanan, belian, pengangkutan atau parkir mengikut pilihan anda.",
+  },
+  {
+    question: "Bilakah waktu yang paling sesuai untuk berkunjung?",
+    answer: "Lewat petang hingga awal malam biasanya lebih selesa untuk berjalan kaki dan menikmati suasana kedai makan. Jika mahu suasana yang lebih tenang, pilih hari bekerja dan datang lebih awal.",
+  },
+  {
+    question: "Bagaimana cara paling mudah dari KL Sentral?",
+    answer: "Kawasan ini berada berhampiran KL Sentral. Anda boleh berjalan kaki mengikut laluan pejalan kaki, atau menggunakan KL Monorail ke stesen Tun Sambanthan untuk mendekati Jalan Tun Sambanthan.",
+  },
+  {
+    question: "Di manakah saya boleh meletak kereta?",
+    answer: "Terdapat pilihan parkir berbayar di sekitar Brickfields dan KL Sentral, tetapi ruang boleh terhad pada waktu sibuk. Gunakan tempat letak kereta bertanda dan semak kadar di lokasi sebelum meninggalkan kenderaan.",
+  },
+];
+
+const attractionSchema = {
+  "@context": "https://schema.org",
+  "@type": ["TouristAttraction", "LocalBusiness"],
+  name: "Little India Brickfields",
+  description,
+  image: heroPhoto,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "Jalan Tun Sambanthan, Brickfields",
+    postalCode: "50470",
+    addressLocality: "Kuala Lumpur",
+    addressRegion: "Wilayah Persekutuan Kuala Lumpur",
+    addressCountry: "MY",
+  },
+  geo: { "@type": "GeoCoordinates", latitude: 3.1292845, longitude: 101.6815846 },
+  openingHoursSpecification: [{
+    "@type": "OpeningHoursSpecification",
+    dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+    opens: "09:00",
+    closes: "21:30",
+  }],
+  aggregateRating: { "@type": "AggregateRating", ratingValue: "4.3", ratingCount: "14193", bestRating: "5" },
+  isAccessibleForFree: true,
+  priceRange: "Percuma untuk berjalan kaki; kos mengikut pembelian dan pengangkutan",
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faq.map((item) => ({
+    "@type": "Question",
+    name: item.question,
+    acceptedAnswer: { "@type": "Answer", text: item.answer },
+  })),
+};
+---
+
+<Base {title} {description}>
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(attractionSchema)} />
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+
+  <header class="site-header">
+    <a class="brand" href="#utama" aria-label="Little India Brickfields">
+      <img src="/logo.svg" alt="Little India Brickfields" width="220" height="64" />
+    </a>
+    <nav aria-label="Navigasi utama">
+      <a href="#teroka">Teroka</a>
+      <a href="#makan">Makan</a>
+      <a href="#arah">Arah</a>
+      <a href="#soalan">Soalan</a>
+    </nav>
+    <a class="plan-link" href="#peta">Buka peta <span>↗</span></a>
+  </header>
+
+  <main id="utama">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-pattern" aria-hidden="true"></div>
+      <div class="hero-copy">
+        <p class="eyebrow"><span></span> KUALA LUMPUR · MALAYSIA</p>
+        <h1 id="hero-title">Rasa warna,<br /><em>rentak</em> dan aroma<br />di Brickfields.</h1>
+        <p class="hero-intro">Little India Brickfields ialah laluan pejalan kaki yang hidup dengan lengkung gerbang, muzik, rempah ratus dan kedai-kedai yang menghidupkan sisi India di Kuala Lumpur.</p>
+        <div class="hero-actions">
+          <a class="button button-saffron" href="#teroka">Mula meneroka <span>↓</span></a>
+          <a class="text-action" href="#arah">Rancang perjalanan <span>→</span></a>
+        </div>
+      </div>
+      <figure class="hero-photo">
+        <img src={heroPhoto} alt="Jalan di Little India Brickfields dengan gerbang berwarna-warni dan deretan kedai" />
+        <figcaption>Jalan Tun Sambanthan · pusat suasana Brickfields <a href="https://commons.wikimedia.org/wiki/File:Little_India,_Brickfields,_Kuala_Lumpur.jpg" target="_blank" rel="noreferrer">· Foto Yun Huang Yong, CC BY 2.0</a></figcaption>
+        <div class="photo-badge"><span>★</span><strong>4.3</strong><small>Google Maps<br />14,193 ulasan</small></div>
+      </figure>
+      <aside class="hero-note"><b>01</b><span>Ikut warna pada jalan, bukan jadual yang terlalu ketat.</span></aside>
+    </section>
+
+    <section class="marquee" aria-label="Sorotan lawatan">
+      <p><span>GERBANG</span> · REMPAH · <span>THOSAI</span> · KAIN SARI · <span>CHAI</span> · JALAN TUN SAMBANTHAN · </p>
+    </section>
+
+    <section id="teroka" class="experience section-shell" aria-labelledby="experience-title">
+      <div class="section-number"><span>02</span><i></i><p>TEROKA</p></div>
+      <div class="experience-header">
+        <p class="kicker">A WALK, NOT A CHECKLIST</p>
+        <h2 id="experience-title">Biar deria memimpin<br />langkah pertama.</h2>
+      </div>
+      <div class="experience-grid">
+        <article class="story-card story-ochre"><span class="card-index">A</span><h3>Lorong yang<br />bercahaya</h3><p>Mulakan di Jalan Tun Sambanthan. Perhatikan corak pada gerbang, laluan bata dan papan tanda kedai yang bertindih.</p><div class="arch-shape" aria-hidden="true"></div></article>
+        <article class="story-card story-teal"><span class="card-index">B</span><h3>Henti, hidu,<br />dengar</h3><p>Biarkan bau rempah, bunga segar dan masakan membuka arah baharu. Ruang ini paling baik dinikmati tanpa tergesa-gesa.</p><div class="sun-shape" aria-hidden="true"></div></article>
+        <article class="story-card story-pink"><span class="card-index">C</span><h3>Pilih satu<br />kenangan</h3><p>Sama ada teh tarik, kain berwarna atau rasa baru di atas daun pisang, bawa pulang pengalaman yang benar-benar peribadi.</p><div class="tile-shape" aria-hidden="true"></div></article>
+      </div>
+      <div class="fact-strip">
+        {facts.map((fact) => <div><dt>{fact.label}</dt><dd>{fact.value}</dd></div>)}
+      </div>
+    </section>
+
+    <section id="makan" class="food section-shell" aria-labelledby="food-title">
+      <div class="food-side-label">RASA YANG MENUNJUKKAN JALAN</div>
+      <div class="food-layout">
+        <div class="food-copy">
+          <p class="kicker">MAKAN DI SEKITAR</p>
+          <h2 id="food-title">Datang dengan<br />rasa ingin tahu.</h2>
+          <p>Brickfields lebih daripada tempat untuk menjamu selera. Ia ialah peluang untuk membaca sebuah kawasan melalui menu: nasi daun pisang, thosai yang baru dimasak, chai, manisan dan rak-rak rempah yang penuh warna.</p>
+          <p class="small-note">Pilihan dan waktu operasi berubah mengikut kedai. Untuk pengalaman yang lebih santai, berjalan dahulu dan pilih tempat yang paling sesuai dengan suasana anda.</p>
+        </div>
+        <div class="food-menu" aria-label="Idea rasa untuk diterokai">
+          <div><span>01</span><strong>Nasi daun pisang</strong><em>hidangan lengkap, santai</em></div>
+          <div><span>02</span><strong>Thosai & vadai</strong><em>hangat, cepat, rangup</em></div>
+          <div><span>03</span><strong>Chai & teh tarik</strong><em>berhenti sejenak</em></div>
+          <div><span>04</span><strong>Manisan India</strong><em>untuk dibawa pulang</em></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="culture section-shell" aria-labelledby="culture-title">
+      <div class="culture-photo">
+        <img src={templePhoto} alt="Kuil Sri Krishna di kawasan Brickfields, Kuala Lumpur" loading="lazy" />
+        <div class="photo-credit"><a href="https://commons.wikimedia.org/wiki/File:Kuala_Lumpur._Sri_Krishna_Temple,_Brickfields._2019-12-13_18-00-05.jpg" target="_blank" rel="noreferrer">Foto: Shesmax · CC BY-SA 4.0</a></div>
+      </div>
+      <div class="culture-copy">
+        <p class="kicker">JIRAN & WARISAN</p>
+        <h2 id="culture-title">Sebuah kawasan,<br />banyak lapisan.</h2>
+        <p>Selepas menyusuri Little India, teruskan ke titik-titik berdekatan mengikut minat anda. Brickfields berada dekat dengan pusat pengangkutan, muzium dan ruang ibadat yang membentuk landskap budaya Kuala Lumpur.</p>
+        <ul class="nearby-list">
+          <li><span>01</span><div><b>KL Sentral & NU Sentral</b><small>Hub pengangkutan dan kemudahan harian.</small></div></li>
+          <li><span>02</span><div><b>Muzium Negara</b><small>Perspektif luas tentang sejarah dan budaya Malaysia.</small></div></li>
+          <li><span>03</span><div><b>Kuil Thean Hou</b><small>Singgah dengan teksi atau e-hailing untuk lawatan berasingan.</small></div></li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="arah" class="directions section-shell" aria-labelledby="directions-title">
+      <div class="section-number"><span>03</span><i></i><p>ARAH & AKSES</p></div>
+      <div class="directions-heading"><p class="kicker">DATANG DENGAN MUDAH</p><h2 id="directions-title">Cari gerbangnya,<br />kemudian perlahan.</h2></div>
+      <div class="directions-grid">
+        <article><span class="direction-icon">✈</span><h3>Dari KLIA</h3><p>Naik KLIA Ekspres ke KL Sentral; perjalanan ke Terminal 1 dirujuk sekitar 28 minit oleh pengendali. Dari KL Sentral, sambung berjalan kaki, monorail atau e-hailing mengikut keselesaan anda.</p><a href="https://www.kliaekspres.com/products-fares/klia-ekspres/" target="_blank" rel="noreferrer">Semak perkhidmatan KLIA Ekspres ↗</a></article>
+        <article><span class="direction-icon">▦</span><h3>Rel & bas</h3><p>KL Sentral ialah titik pertukaran yang praktikal. KL Monorail berhenti di Tun Sambanthan; untuk bas, semak perjalanan masa nyata sebelum bergerak kerana laluan dan gangguan boleh berubah.</p><a href="https://myrapid.com.my/journey-planner/" target="_blank" rel="noreferrer">Rancang dengan Rapid KL ↗</a></article>
+        <article><span class="direction-icon">▱</span><h3>Teksi & e-hailing</h3><p>Gunakan “Little India Brickfields” atau “Jalan Tun Sambanthan, Brickfields” sebagai lokasi tujuan. Waktu puncak boleh melambatkan perjalanan, jadi sediakan sedikit masa tambahan.</p><a href="#peta">Lihat titik peta ↓</a></article>
+        <article><span class="direction-icon">P</span><h3>Parkir</h3><p>Parkir berbayar tersedia di sekitar Brickfields dan KL Sentral, tetapi tempat adalah terhad ketika sibuk. Pilih lot bertanda, semak bayaran di tapak dan jangan menghalang laluan kedai.</p><a href="#peta">Buka kawasan peta ↓</a></article>
+      </div>
+    </section>
+
+    <section id="peta" class="map-section" aria-labelledby="map-title">
+      <div class="map-copy"><p class="kicker">TITIK MULA</p><h2 id="map-title">Di tengah<br />Brickfields.</h2><p>Gunakan peta untuk orientasi, kemudian biarkan mata anda mencari warna dan bunyi di jalan.</p><span>Rujukan lokasi: Jalan Tun Sambanthan, Brickfields</span></div>
+      <div class="map-wrap"><iframe title="Peta Little India Brickfields" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6146.9855268406!2d101.68158457655085!3d3.129284453271161!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31cc49eb2b7d6bb1%3A0x4ff708383c79418b!2z5bCP5Y2w5bqm5Y2B5LqU56KR!5e1!3m2!1sms!2sMY!4v1786528124372!5m2!1sms!2sMY&hl=ms&gl=MY" width="600" height="450" style="border:0;" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+    </section>
+
+    <section id="soalan" class="faq section-shell" aria-labelledby="faq-title">
+      <div class="section-number"><span>04</span><i></i><p>SOALAN LAZIM</p></div>
+      <div class="faq-title"><p class="kicker">SEBELUM ANDA PERGI</p><h2 id="faq-title">Sedikit jelas,<br />lebih banyak rasa.</h2></div>
+      <div class="faq-list">
+        {faq.map((item, index) => <details><summary><span>0{index + 1}</span>{item.question}<b>+</b></summary><p>{item.answer}</p></details>)}
+      </div>
+      <p class="info-disclaimer">Maklumat rating dan masa rujukan bersumber daripada Google Maps dan boleh berubah. Sila semak status terkini sebelum berkunjung, terutama bagi kedai dan tempat ibadat.</p>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-top"><img src="/logo.svg" alt="Little India Brickfields" width="220" height="64" /><a href="#utama">Kembali ke atas ↑</a></div>
+    <div class="footer-bottom"><p>Laman ini ialah panduan pelawat bebas dan tidak berafiliasi secara rasmi dengan Little India Brickfields.</p><p>Rujukan: Tourism Malaysia · Rapid KL · Google Maps</p></div>
+  </footer>
+</Base>

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 64" role="img" aria-labelledby="title">
+  <title id="title">Little India Brickfields</title>
+  <path fill="#f5b947" d="M8 52V29c0-12 9-21 21-21s21 9 21 21v23h-7V29c0-8-6-14-14-14s-14 6-14 14v23z"/>
+  <path fill="#ed644b" d="M15 49h28v7H15z"/>
+  <path fill="#0c5b63" d="M20 31h18v6H20zm-3 9h24v6H17z"/>
+  <circle cx="29" cy="12" r="3" fill="#d53b57"/>
+  <text x="63" y="31" font-family="Georgia,serif" font-size="22" font-weight="700" fill="#153a3d">Little India</text>
+  <text x="64" y="49" font-family="Arial,sans-serif" font-size="9" letter-spacing="2.1" fill="#9a3b4a">BRICKFIELDS · KUALA LUMPUR</text>
+</svg>
