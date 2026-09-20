@@ -25,6 +25,26 @@
 
 网站使用两张 Wikimedia Commons 真实照片，以便独立 Cloudflare 部署也能正常取得图片。第一张 Little India 街景的作者为 Yun Huang Yong，采用 CC BY 2.0；第二张 Sri Krishna Temple 照片的作者为 Shesmax，采用 CC BY-SA 4.0。对应署名和许可已保留于页面图注与本说明中。
 
+## 数据更新（2026-09-20）
+
+Google 地图地点卡片与 Search Console 数据更新后的事实，已同步到页面与 JSON-LD：
+
+| 主题 | 最新信息 | 使用方式 |
+| --- | --- | --- |
+| 名称与类别 | Little India Brickfields · Tourist attraction | 标题、H1、JSON-LD 的 `name` |
+| 地址 | 229, Jalan Tun Sambanthan, Brickfields, 50470 Kuala Lumpur, Wilayah Persekutuan Kuala Lumpur | 页脚、访客信息区块、JSON-LD 的 `streetAddress` |
+| 电话 | +603 2274 4145 | 页脚、访客信息区块、JSON-LD 的 `telephone` |
+| 评分 | 4.3 / 5，共 14,282 条评价 | 首屏徽章、页脚说明、JSON-LD 的 `aggregateRating`，并注明“以 Google 地图为准，可能变化” |
+| Plus code | 4MHM+PM Kuala Lumpur | 访客信息区块、页脚 |
+| 地图链接 | https://maps.app.goo.gl/epohc1mUcuyLbviaA | JSON-LD 的 `hasMap`、页脚与按钮外链 |
+| 官网 | http://littleindiakl.com/（GSC 仍显示 HTTP 版本为主要索引） | 站点 `site` 已统一为 `https://littleindiakl.com` |
+
+### Search Console 观察（2026-08-11 至 2026-09-17）
+
+- 曝光集中在 `http://littleindiakl.com/`（193 次，平均排名 52.59），HTTPS 与 www 版本各只有 27 次与 4 次，说明规范版本未统一，需要在 Cloudflare 开启 Always Use HTTPS 并保留唯一 canonical。
+- 热门查询以 `little india kuala lumpur`、`little india brickfields`、`little india kl`、`brickfields` 为主，另有 `opening hours`、`parking` 等长尾意图；页面已新增“Waktu Buka & Maklumat Pelawat”区块并在 FAQ 中覆盖营业时间、步行距离与停车问题。
+- 国家/地区分布以马来西亚、印尼、德国、荷兰、瑞士、印度为主，国际游客意图明显，因此页脚补充 Tourism Malaysia、Rapid KL 与 Google Maps 官方外链。
+
 ## 预览核验
 
 2026-08-12 的临时预览显示：导航、首屏真实街景、章节、FAQ、网站图标与马来语内容均正确渲染。`/manus-storage/` 仅适用于项目受管预览，不能保证独立 Cloudflare Worker 部署可访问，因此最终源码改用许可明确的 Wikimedia 静态媒体地址。
