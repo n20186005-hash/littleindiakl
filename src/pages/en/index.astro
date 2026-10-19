@@ -1,0 +1,54 @@
+---
+import Base from '../../layouts/Base.astro';
+const title = 'Little India Kuala Lumpur | Brickfields Hours & KL Sentral Guide';
+const description = 'Plan a Little India Brickfields walk in Kuala Lumpur: map-listed hours, directions from KL Sentral, Indian food, shopping, parking and practical visitor tips.';
+const maps = 'https://maps.app.goo.gl/epohc1mUcuyLbviaA';
+const image = 'https://upload.wikimedia.org/wikipedia/commons/1/10/Little_India%2C_Brickfields%2C_Kuala_Lumpur.jpg';
+const faq = [
+  { q: 'Where is Little India in Kuala Lumpur?', a: 'Little India is in Brickfields, around Jalan Tun Sambanthan near KL Sentral. Use the linked Google Maps listing to choose your walking route and meeting point.' },
+  { q: 'What are the opening hours?', a: 'Google Maps listed 10:30–21:30 every day when checked on 19 October 2026. Brickfields is a neighbourhood, so this listing is not a shared timetable for every restaurant, shop or place of worship. Check your intended stop directly.' },
+  { q: 'Do I need an entrance ticket?', a: 'There is no general entrance ticket for walking around the public streets. Food, shopping, transport and parking are separate costs; individual premises may have their own conditions.' },
+  { q: 'How do I get there from KL Sentral?', a: 'Plan a walking route from your KL Sentral exit to your chosen stop on Jalan Tun Sambanthan. Use marked crossings and check the map before leaving; walking time depends on your exit and destination.' },
+  { q: 'What can I eat and buy?', a: 'Look for banana-leaf rice, thosai, vadai, tea and Indian sweets, then browse fabrics, spices and local goods. Menus, stock and payment methods vary by shop, so ask before ordering or buying.' },
+  { q: 'How long should I allow?', a: 'As a planning suggestion, allow around 1.5–3 hours for a walk and meal. Add time for shopping, heat or rain breaks, and visits to individual places of worship.' },
+];
+const schema = { '@context':'https://schema.org', '@type':'TouristAttraction', name:'Little India Brickfields', alternateName:'Little India Kuala Lumpur', description, url:'https://littleindiakl.com/en/', hasMap:maps, image, address:{'@type':'PostalAddress',streetAddress:'239, 237, Jalan Tun Sambanthan, Brickfields',postalCode:'50470',addressLocality:'Kuala Lumpur',addressRegion:'Wilayah Persekutuan Kuala Lumpur',addressCountry:'MY'} };
+const faqSchema = { '@context':'https://schema.org', '@type':'FAQPage',mainEntity:faq.map(({q,a})=>({'@type':'Question',name:q,acceptedAnswer:{'@type':'Answer',text:a}})) };
+---
+<Base {title} {description} {image} lang="en">
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  <header class="site-header">
+    <a class="brand" href="/en/" aria-label="Little India Brickfields home"><img src="/logo.svg" width="220" height="64" alt="Little India Brickfields" /></a>
+    <nav aria-label="Main navigation"><a href="/" lang="ms">Bahasa Melayu</a><a href="#hours">Hours</a><a href="#directions">Directions</a><a href="#food">Food & shopping</a><a href="#faq">FAQ</a></nav>
+    <a class="plan-link" href={maps} target="_blank" rel="noreferrer">Open map ↗</a>
+  </header>
+  <main class="english-guide section-shell">
+    <section aria-labelledby="guide-title">
+      <p class="kicker">BRICKFIELDS · KUALA LUMPUR</p>
+      <h1 id="guide-title">Little India Kuala Lumpur</h1>
+      <p class="hero-intro">Explore Brickfields around Jalan Tun Sambanthan: a neighbourhood of colourful shopfronts, Indian food and shopping near KL Sentral. Start with your route, check the shops you want to visit, then leave time for a meal and a walk.</p>
+      <p><a href="#hours">Opening hours</a> · <a href="#directions">From KL Sentral</a> · <a href="#food">What to eat and buy</a></p>
+      <figure><img src={image} alt="Colourful arches and shops along Jalan Tun Sambanthan in Little India Brickfields" fetchpriority="high" /><figcaption>Photo: <a href="https://commons.wikimedia.org/wiki/File:Little_India,_Brickfields,_Kuala_Lumpur.jpg" target="_blank" rel="noreferrer">Yun Huang Yong, CC BY 2.0</a>.</figcaption></figure>
+    </section>
+    <section id="hours" class="quick-guide" aria-labelledby="hours-title">
+      <h2 id="hours-title">Opening hours and visitor essentials</h2>
+      <p><strong>Google Maps reference: 10:30–21:30, Monday–Sunday.</strong> Checked on <time datetime="2026-10-19">19 October 2026</time>. This is the neighbourhood listing, not a guarantee that every business opens at the same time. Public streets, shops, restaurants and places of worship have different access arrangements.</p>
+      <p><strong>Map address:</strong> 239, 237, Jalan Tun Sambanthan, Brickfields, 50470 Kuala Lumpur, Wilayah Persekutuan Kuala Lumpur, Malaysia. Treat this as a map reference point; check the address of the particular shop you plan to visit.</p>
+      <p><strong>Google Maps snapshot:</strong> 4.3/5 from 14,366 reviews, checked 19 October 2026. Ratings and hours can change. <a href={maps} target="_blank" rel="noreferrer">See the current listing ↗</a></p>
+      <p>A walk around the public streets does not require a general entrance ticket. Budget separately for food, purchases, transport and parking. Late afternoon can be a useful planning choice, but check weather and your intended stops first.</p>
+    </section>
+    <section id="directions" aria-labelledby="directions-title">
+      <h2 id="directions-title">Getting to Brickfields from KL Sentral</h2>
+      <ol><li>Choose your destination on Jalan Tun Sambanthan using the <a href={maps} target="_blank" rel="noreferrer">Little India map</a>.</li><li>Check the walking route from your KL Sentral exit. Use signed pedestrian routes and marked crossings; allow extra time in heat or rain.</li><li>For the journey to KL Sentral, use the <a href="https://myrapid.com.my/journey-planner/" target="_blank" rel="noreferrer">Rapid KL journey planner</a>. If arriving from the airport, check <a href="https://www.kliaekspres.com/products-fares/klia-ekspres/" target="_blank" rel="noreferrer">KLIA Ekspres</a> for current service and fares.</li></ol>
+      <p>Driving or using a ride-hailing service? Pick a legal drop-off point clear of shop access and delivery vehicles. Follow posted parking rules and fees; space close to a particular shop is not guaranteed. This guide does not publish a fixed walk time because station exits and destinations differ.</p>
+    </section>
+    <section id="food" aria-labelledby="food-title">
+      <h2 id="food-title">Food, shopping and a simple walking plan</h2>
+      <div class="guide-grid"><article><h3>Start with a meal</h3><p>Look for banana-leaf rice or thosai, and ask which dishes are available. If you have dietary needs, confirm ingredients with the restaurant before ordering.</p></article><article><h3>Browse at your own pace</h3><p>Explore fabrics, spices and sweets. Compare prices and ask about sizes, materials and payment methods. Stock and opening times vary.</p></article><article><h3>Leave time for a pause</h3><p>Stop for tea or a snack, then return toward your transport connection. Around 1.5–3 hours is a planning suggestion, rather than a required visit length.</p></article></div>
+      <p>Ask before photographing people or entering a place of worship. Follow posted dress and access instructions. Festival dates and temporary street arrangements should be checked separately before a special trip.</p>
+    </section>
+    <section id="faq" aria-labelledby="faq-title"><h2 id="faq-title">Frequently asked questions</h2>{faq.map(({q,a})=><details><summary>{q}</summary><p>{a}</p></details>)}</section>
+  </main>
+  <footer><div class="footer-top"><img src="/logo.svg" width="220" height="64" alt="Little India Brickfields" /><a href="/" lang="ms">Bahasa Melayu ↗</a></div><div class="footer-bottom"><p>Independent visitor guide. Public map facts checked 19 October 2026. Confirm individual businesses before visiting.</p><p><a href={maps} target="_blank" rel="noreferrer">Google Maps</a> · <a href="https://ebrochures.malaysia.travel/en/malaysia-travel-guide/kuala-lumpur/" target="_blank" rel="noreferrer">Tourism Malaysia city guide</a> · <a href="https://myrapid.com.my/journey-planner/" target="_blank" rel="noreferrer">Rapid KL</a></p></div></footer>
+</Base>

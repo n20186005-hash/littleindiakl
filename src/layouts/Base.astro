@@ -6,16 +6,17 @@ interface Props {
   title: string;
   description: string;
   image?: string;
+  lang?: "ms" | "en";
 }
 
-const { title, description, image } = Astro.props;
+const { title, description, image, lang = "ms" } = Astro.props;
 const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).toString() : undefined;
 const ogImage = image ? new URL(image).toString() : undefined;
 const siteName = Astro.site ? Astro.site.host.replace(/^www\./, "") : "Little India Brickfields";
 ---
 
 <!doctype html>
-<html lang="ms">
+<html lang={lang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -23,13 +24,16 @@ const siteName = Astro.site ? Astro.site.host.replace(/^www\./, "") : "Little In
     <meta name="description" content={description} />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
     {canonical && <link rel="canonical" href={canonical} />}
+    <link rel="alternate" hreflang="ms" href="https://littleindiakl.com/" />
+    <link rel="alternate" hreflang="en" href="https://littleindiakl.com/en/" />
+    <link rel="alternate" hreflang="x-default" href="https://littleindiakl.com/" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon-32x32.png" sizes="32x32" type="image/png" />
     <link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={siteName} />
-    <meta property="og:locale" content="ms_MY" />
+    <meta property="og:locale" content={lang === "en" ? "en_MY" : "ms_MY"} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     {canonical && <meta property="og:url" content={canonical} />}
