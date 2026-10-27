@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import TopicLinks from '../../components/TopicLinks.astro';
 const title = 'Little India Kuala Lumpur | Brickfields Hours & KL Sentral Guide';
 const description = 'Plan a Little India Brickfields walk in Kuala Lumpur: map-listed hours, directions from KL Sentral, Indian food, shopping, parking and practical visitor tips.';
 const maps = 'https://maps.app.goo.gl/epohc1mUcuyLbviaA';
@@ -35,7 +36,7 @@ const faqSchema = { '@context':'https://schema.org', '@type':'FAQPage',mainEntit
       <h2 id="hours-title">Opening hours and visitor essentials</h2>
       <p><strong>Google Maps reference: 10:30–21:30, Monday–Sunday.</strong> Checked on <time datetime="2026-10-19">19 October 2026</time>. This is the neighbourhood listing, not a guarantee that every business opens at the same time. Public streets, shops, restaurants and places of worship have different access arrangements.</p>
       <p><strong>Map address:</strong> 239, 237, Jalan Tun Sambanthan, Brickfields, 50470 Kuala Lumpur, Wilayah Persekutuan Kuala Lumpur, Malaysia. Treat this as a map reference point; check the address of the particular shop you plan to visit.</p>
-      <p><strong>Google Maps snapshot:</strong> 4.3/5 from 14,366 reviews, checked 19 October 2026. Ratings and hours can change. <a href={maps} target="_blank" rel="noreferrer">See the current listing ↗</a></p>
+      <p><strong>Google Maps snapshot:</strong> 4.3/5 from 14,387 reviews, checked 19 October 2026. Ratings and hours can change. <a href={maps} target="_blank" rel="noreferrer">See the current listing ↗</a></p>
       <p>A walk around the public streets does not require a general entrance ticket. Budget separately for food, purchases, transport and parking. Late afternoon can be a useful planning choice, but check weather and your intended stops first.</p>
     </section>
     <section id="directions" aria-labelledby="directions-title">
@@ -49,6 +50,8 @@ const faqSchema = { '@context':'https://schema.org', '@type':'FAQPage',mainEntit
       <p>Ask before photographing people or entering a place of worship. Follow posted dress and access instructions. Festival dates and temporary street arrangements should be checked separately before a special trip.</p>
     </section>
     <section id="faq" aria-labelledby="faq-title"><h2 id="faq-title">Frequently asked questions</h2>{faq.map(({q,a})=><details><summary>{q}</summary><p>{a}</p></details>)}</section>
+
+    <TopicLinks locale="en" />
   </main>
   <footer><div class="footer-top"><img src="/logo.svg" width="220" height="64" alt="Little India Brickfields" /><a href="/" lang="ms">Bahasa Melayu ↗</a></div><div class="footer-bottom"><p>Independent visitor guide. Public map facts checked 19 October 2026. Confirm individual businesses before visiting.</p><p><a href={maps} target="_blank" rel="noreferrer">Google Maps</a> · <a href="https://ebrochures.malaysia.travel/en/malaysia-travel-guide/kuala-lumpur/" target="_blank" rel="noreferrer">Tourism Malaysia city guide</a> · <a href="https://myrapid.com.my/journey-planner/" target="_blank" rel="noreferrer">Rapid KL</a></p></div></footer>
 </Base>

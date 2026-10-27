@@ -1,0 +1,85 @@
+---
+import { TOPICS } from "../data/topics";
+
+interface Props {
+  locale: "ms" | "en";
+}
+
+const { locale } = Astro.props;
+const heading = locale === "en" ? "More guides around Little India" : "Lebih panduan sekitar Little India";
+const kicker = locale === "en" ? "PLAN YOUR VISIT" : "RANCANG LAWATAN";
+const note =
+  locale === "en"
+    ? "Practical guides to plan your walk, meal and visit around Brickfields."
+    : "Panduan praktikal untuk merancang jalan, makan dan lawatan di sekitar Brickfields.";
+---
+
+<section class="topic-links">
+  <p class="kicker">{kicker}</p>
+  <h2>{heading}</h2>
+  <p class="topic-links-note">{note}</p>
+  <ul class="topic-links-grid">
+    {TOPICS.map((t) => (
+      <li>
+        <a href={locale === "en" ? `/en/${t.slug}/` : `/${t.slug}/`}>
+          <span>{t[locale].h1}</span>
+          <small>{t[locale].description}</small>
+        </a>
+      </li>
+    ))}
+  </ul>
+</section>
+
+<style>
+  .topic-links {
+    background: #f0d99b;
+    margin: 0 auto;
+    max-width: 1536px;
+    padding: clamp(3rem, 7vw, 6rem) clamp(1rem, 4vw, 4.5rem);
+  }
+  .topic-links .kicker { color: var(--teal); }
+  .topic-links h2 {
+    font-size: clamp(2rem, 4vw, 3.4rem);
+    letter-spacing: -0.05em;
+    line-height: 1.02;
+    margin: 0.6rem 0 1rem;
+  }
+  .topic-links-note {
+    color: #5e5230;
+    font-size: 0.9rem;
+    line-height: 1.8;
+    margin: 0 0 2.4rem;
+    max-width: 42rem;
+  }
+  .topic-links-grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .topic-links-grid a {
+    background: var(--cream);
+    border: 1px solid rgba(21, 58, 61, 0.2);
+    display: block;
+    height: 100%;
+    padding: 1.3rem 1.4rem;
+    transition: background 0.18s ease, transform 0.18s ease;
+  }
+  .topic-links-grid a:hover { background: var(--saffron); transform: translateY(-3px); }
+  .topic-links-grid span {
+    display: block;
+    font-family: Georgia, serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    margin-bottom: 0.5rem;
+  }
+  .topic-links-grid small {
+    color: #5e5230;
+    font-size: 0.7rem;
+    line-height: 1.6;
+  }
+</style>

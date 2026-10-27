@@ -7,12 +7,19 @@ interface Props {
   description: string;
   image?: string;
   lang?: "ms" | "en";
+  hreflangAlternates?: Array<{ hreflang: string; href: string }>;
 }
 
-const { title, description, image, lang = "ms" } = Astro.props;
+const { title, description, image, lang = "ms", hreflangAlternates } = Astro.props;
 const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).toString() : undefined;
 const ogImage = image ? new URL(image).toString() : undefined;
 const siteName = Astro.site ? Astro.site.host.replace(/^www\./, "") : "Little India Brickfields";
+const defaultAlternates = [
+  { hreflang: "ms", href: "https://littleindiakl.com/" },
+  { hreflang: "en", href: "https://littleindiakl.com/en/" },
+  { hreflang: "x-default", href: "https://littleindiakl.com/" },
+];
+const alternates = hreflangAlternates && hreflangAlternates.length ? hreflangAlternates : defaultAlternates;
 ---
 
 <!doctype html>
@@ -24,9 +31,9 @@ const siteName = Astro.site ? Astro.site.host.replace(/^www\./, "") : "Little In
     <meta name="description" content={description} />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
     {canonical && <link rel="canonical" href={canonical} />}
-    <link rel="alternate" hreflang="ms" href="https://littleindiakl.com/" />
-    <link rel="alternate" hreflang="en" href="https://littleindiakl.com/en/" />
-    <link rel="alternate" hreflang="x-default" href="https://littleindiakl.com/" />
+    {alternates.map((alt) => (
+      <link rel="alternate" hreflang={alt.hreflang} href={alt.href} />
+    ))}
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon-32x32.png" sizes="32x32" type="image/png" />
     <link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png" />

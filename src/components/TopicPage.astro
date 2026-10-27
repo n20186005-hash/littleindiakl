@@ -1,0 +1,283 @@
+---
+import Base from "../layouts/Base.astro";
+import { getTopic, type Topic } from "../data/topics";
+
+interface Props {
+  slug: string;
+  locale: "ms" | "en";
+}
+
+const { slug, locale } = Astro.props;
+const topic = getTopic(slug);
+if (!topic) return Astro.redirect("/404");
+
+const c = topic[locale];
+const site = Astro.site ?? new URL("https://littleindiakl.com");
+const homePath = locale === "en" ? "/en/" : "/";
+const topicPath = locale === "en" ? `/en/${slug}/` : `/${slug}/`;
+const topicUrl = new URL(topicPath, site).toString();
+
+const alternates = [
+  { hreflang: "ms", href: new URL(`/${slug}/`, site).toString() },
+  { hreflang: "en", href: new URL(`/en/${slug}/`, site).toString() },
+  { hreflang: "x-default", href: new URL(`/${slug}/`, site).toString() },
+];
+
+const labels = locale === "en"
+  ? { home: "Home", faq: "Frequently asked questions", related: "Related guides", plan: "Open map" }
+  : { home: "Utama", faq: "Soalan lazim", related: "Panduan berkaitan", plan: "Buka peta" };
+
+const mapsUrl = "https://maps.app.goo.gl/epohc1mUcuyLbviaA";
+
+const relatedTopics: Topic[] = topic.related
+  .map((s) => getTopic(s))
+  .filter((t): t is Topic => Boolean(t));
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "@id": topicUrl + "#breadcrumb",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: labels.home, item: new URL(homePath, site).toString() },
+    { "@type": "ListItem", position: 2, name: c.h1, item: topicUrl },
+  ],
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: c.faq.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
+};
+
+const webPageSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": topicUrl + "#webpage",
+  url: topicUrl,
+  name: c.title,
+  description: c.description,
+  inLanguage: locale === "en" ? "en-MY" : "ms-MY",
+  isPartOf: { "@type": "WebSite", "@id": new URL("/", site).toString() + "#website" },
+  about: { "@type": "TouristAttraction", "@id": "https://littleindiakl.com/#little-india-brickfields" },
+  breadcrumb: { "@id": topicUrl + "#breadcrumb" },
+};
+---
+
+<Base title={c.title} description={c.description} lang={locale} hreflangAlternates={alternates}>
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(webPageSchema)} />
+
+  <header class="site-header">
+    <a class="brand" href={homePath} aria-label="Little India Brickfields">
+      <img src="/logo.svg" alt="Little India Brickfields" width="220" height="64" />
+    </a>
+    <nav aria-label="Main navigation">
+      <a href={homePath}>{labels.home}</a>
+      <a href={homePath + "#waktu"}>Hours</a>
+      <a href={homePath + "#arah"}>Directions</a>
+    </nav>
+    <a class="plan-link" href={mapsUrl} target="_blank" rel="noreferrer">{labels.plan} <span>↗</span></a>
+  </header>
+
+  <main class="topic-page">
+    <nav class="topic-breadcrumb" aria-label="Breadcrumb">
+      <a href={homePath}>{labels.home}</a>
+      <span aria-hidden="true">/</span>
+      <span>{c.h1}</span>
+    </nav>
+
+    <h1>{c.h1}</h1>
+    <p class="topic-intro">{c.intro}</p>
+
+    {c.sections.map((s) => (
+      <section class="topic-section">
+        <h2 id={s.id}>{s.title}</h2>
+        <div class="topic-prose" set:html={s.body} />
+      </section>
+    ))}
+
+    <section class="topic-faq">
+      <h2>{labels.faq}</h2>
+      <div class="topic-faq-list">
+        {c.faq.map((f, i) => (
+          <details>
+            <summary><span>0{i + 1}</span>{f.q}<b>+</b></summary>
+            <p>{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    {relatedTopics.length > 0 && (
+      <section class="topic-related">
+        <h2>{labels.related}</h2>
+        <ul class="topic-related-list">
+          {relatedTopics.map((rt) => (
+            <li>
+              <a href={(locale === "en" ? `/en/${rt.slug}/` : `/${rt.slug}/`)}>
+                {rt[locale].h1}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+  </main>
+
+  <footer class="topic-footer">
+    <div class="topic-footer-top">
+      <img src="/logo.svg" alt="Little India Brickfields" width="180" height="52" />
+      <a href={homePath}>↑ {labels.home}</a>
+    </div>
+    <p class="topic-footer-note">
+      {locale === "en"
+        ? "Independent visitor guide to Little India Brickfields. Confirm individual businesses before visiting; details can change."
+        : "Panduan pelawat bebas ke Little India Brickfields. Sahkan premis individu sebelum berkunjung; butiran boleh berubah."}
+    </p>
+  </footer>
+</Base>
+
+<style>
+  .topic-page {
+    margin: 0 auto;
+    max-width: 60rem;
+    padding: clamp(2rem, 5vw, 4rem) clamp(1rem, 4vw, 3rem) 4rem;
+  }
+  .topic-breadcrumb {
+    color: var(--teal);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+  }
+  .topic-breadcrumb a { border-bottom: 1px solid var(--teal); }
+  .topic-breadcrumb span[aria-hidden] { margin: 0 0.5rem; opacity: 0.5; }
+  .topic-page h1 {
+    font-size: clamp(2.4rem, 5vw, 4.2rem);
+    letter-spacing: -0.05em;
+    line-height: 1;
+    margin: 0 0 1.4rem;
+    max-width: 16em;
+  }
+  .topic-intro {
+    color: #2c4a4d;
+    font-size: clamp(0.95rem, 1.4vw, 1.12rem);
+    line-height: 1.9;
+    margin: 0 0 3rem;
+    max-width: 46rem;
+  }
+  .topic-section { margin-bottom: 3rem; }
+  .topic-section h2 {
+    border-left: 4px solid var(--saffron);
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    letter-spacing: -0.04em;
+    line-height: 1.05;
+    margin: 0 0 1.2rem;
+    padding-left: 0.9rem;
+  }
+  .topic-prose :global(p) {
+    color: #2c4a4d;
+    font-size: 0.92rem;
+    line-height: 1.9;
+    margin: 0 0 1rem;
+    max-width: 46rem;
+  }
+  .topic-prose :global(ul) {
+    color: #2c4a4d;
+    font-size: 0.92rem;
+    line-height: 1.85;
+    margin: 0 0 1rem;
+    max-width: 46rem;
+    padding-left: 1.2rem;
+  }
+  .topic-prose :global(li) { margin-bottom: 0.5rem; }
+  .topic-prose :global(strong) { color: var(--ink); }
+  .topic-faq { margin-bottom: 3rem; }
+  .topic-faq h2 {
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    letter-spacing: -0.04em;
+    margin: 0 0 1.5rem;
+  }
+  .topic-faq-list details { border-top: 1px solid var(--line); }
+  .topic-faq-list details:last-child { border-bottom: 1px solid var(--line); }
+  .topic-faq-list summary {
+    align-items: center;
+    cursor: pointer;
+    display: grid;
+    font-family: Georgia, serif;
+    font-size: clamp(1rem, 1.7vw, 1.3rem);
+    gap: 1rem;
+    grid-template-columns: 2.4rem 1fr auto;
+    list-style: none;
+    padding: 1.2rem 0;
+  }
+  .topic-faq-list summary::-webkit-details-marker { display: none; }
+  .topic-faq-list summary span {
+    color: var(--pink);
+    font-family: "Avenir Next", sans-serif;
+    font-size: 0.64rem;
+    font-weight: 800;
+  }
+  .topic-faq-list summary b {
+    color: var(--pink);
+    font-family: "Avenir Next", sans-serif;
+    font-size: 1.25rem;
+    font-weight: 400;
+    transition: transform 0.2s ease;
+  }
+  .topic-faq-list details[open] summary b { transform: rotate(45deg); }
+  .topic-faq-list details p {
+    color: #2c4a4d;
+    font-size: 0.85rem;
+    line-height: 1.85;
+    margin: 0;
+    max-width: 51rem;
+    padding: 0 3rem 1.3rem;
+  }
+  .topic-related h2 {
+    font-size: clamp(1.4rem, 2.6vw, 2rem);
+    letter-spacing: -0.04em;
+    margin: 0 0 1.2rem;
+  }
+  .topic-related-list {
+    display: grid;
+    gap: 0.8rem;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .topic-related-list a {
+    background: var(--cream);
+    border: 1px solid var(--line);
+    color: var(--ink);
+    display: block;
+    font-family: Georgia, serif;
+    font-size: 1rem;
+    padding: 1rem 1.1rem;
+    transition: background 0.18s ease, transform 0.18s ease;
+  }
+  .topic-related-list a:hover { background: var(--saffron); transform: translateY(-2px); }
+  .topic-footer {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 2.4rem clamp(1rem, 4vw, 3rem);
+  }
+  .topic-footer-top {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+  }
+  .topic-footer-top img { filter: brightness(0) invert(1); height: 44px; opacity: 0.95; width: auto; }
+  .topic-footer-top a { border-bottom: 1px solid var(--saffron); color: var(--saffron); font-size: 0.7rem; font-weight: 800; padding-bottom: 0.25rem; }
+  .topic-footer-note { color: #bed6d2; font-size: 0.66rem; line-height: 1.6; margin: 1.4rem 0 0; max-width: 40rem; }
+  @media (max-width: 560px) {
+    .topic-faq-list details p { padding-left: 0; }
+  }
+</style>

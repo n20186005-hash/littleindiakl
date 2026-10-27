@@ -1,0 +1,12 @@
+---
+import TopicPage from "../../components/TopicPage.astro";
+import { topicSlugs } from "../../data/topics";
+
+export function getStaticPaths() {
+  return topicSlugs().map((slug) => ({ params: { topic: slug } }));
+}
+
+const { topic } = Astro.params;
+---
+
+<TopicPage slug={topic as string} locale="en" />
